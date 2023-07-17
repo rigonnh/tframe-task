@@ -1,10 +1,21 @@
+import Home from "./components/Home";
+import Navbar from "./components/Navbar";
+import ShoppingBag from "./components/ShoppingBag";
+import Table from "./components/Table";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-      <div>
-        <h1>REACT APP</h1>
-      </div>
+    <div>
+      
+      <BrowserRouter>
+      <Navbar />
+      <Routes>
+        
+        <Route path="/" element={<Home />}/>
+        <Route path="/bag" element={<ShoppingBag />}/>
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }

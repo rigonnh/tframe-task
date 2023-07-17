@@ -15,11 +15,6 @@ import java.util.List;
 @Service
 public class ProductsService {
     // ProductService.java
-
-
-
-
-
         @Autowired
         private ResourceLoader resourceLoader;
 

@@ -2,6 +2,7 @@ package com.tframe.task.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.tframe.task.model.Product;
+import com.tframe.task.model.ProductCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -11,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class ProductsService {
@@ -42,6 +44,19 @@ public class ProductsService {
                 e.printStackTrace();
                 return null;
             }
+        }
+
+        public void generateReport(List<ProductCart> productCartList) {
+            List<ProductCart> cartList = new ArrayList<>();
+            double priceToCheck = 0;
+            for ( ProductCart item: productCartList
+                 ) {
+                priceToCheck += item.getProductPrice();
+                if(priceToCheck > 500) {
+                    cartList.add(item);
+                }
+            }
+
         }
     }
 

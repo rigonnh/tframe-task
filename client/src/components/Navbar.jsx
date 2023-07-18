@@ -115,7 +115,7 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton onClick={() => {navigate('/bag')}} size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={snap.shoppingListNumber +1} color="error">
+              <Badge badgeContent={snap.shoppingListNumber} color="error">
                 <AddShoppingCartIcon />
               </Badge>
             </IconButton>

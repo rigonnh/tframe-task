@@ -8,6 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import state from '../utils/store';
+import { useSnapshot } from 'valtio';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -30,7 +32,22 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }));
 
 
+
 const TableComponent = ({ data }) => {
+  const snap = useSnapshot(state)
+  const handleAddtoCart = (row) => {
+  const isPrev = state.shoppingListData.find((item) => item.id === row.id)
+  
+  if(isPrev){
+    state.shoppingListData.map((item) => item.id === row.id ? item.amount += 1 : item)
+  }
+  
+  else {
+    state.shoppingListData= [...state.shoppingListData, { ...row, amount: 1 }]
+  }
+  
+  }
+
   return (
     <Box  marginX={1} marginTop={4}>
         <TableContainer component={Paper} style={{overflow: 'scroll', height: 500}}>
@@ -68,7 +85,10 @@ const TableComponent = ({ data }) => {
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       
-                      <Button startIcon={<AddShoppingCartIcon />} variant='contained'>
+                      <Button onClick={() => {
+                        state.shoppingListNumber += 1
+                        handleAddtoCart(row)
+                      }} startIcon={<AddShoppingCartIcon />} variant='contained'>
                         Shto ne Shport
                       </Button>
                     </StyledTableCell>

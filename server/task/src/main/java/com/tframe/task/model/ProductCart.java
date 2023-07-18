@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class ProductCart {
 
     private int id;
 
@@ -22,5 +22,9 @@ public class Product {
 
     private double discount;
 
+    private int amount;
+
 
 }
+
+

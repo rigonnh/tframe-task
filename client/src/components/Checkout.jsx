@@ -37,6 +37,10 @@ const Checkout = () => {
           setTotal(calculatedTotal);
 
     }, [snap.shoppingListData]);
+
+    const handleSubmit = () => {
+        
+    }
   return (
     <Box
       display={"flex"}
@@ -72,7 +76,7 @@ const Checkout = () => {
         </Box>
         <Box>{total.toFixed(2)}{EURO_SYMBOL}</Box>
       </Box>
-      <Button variant="contained">Faturo</Button>
+      <Button onClick={handleSubmit} variant="contained">Faturo</Button>
     </Box>
   );
 }

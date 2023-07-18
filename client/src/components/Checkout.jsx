@@ -2,7 +2,8 @@ import { Box, Button, Divider, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSnapshot } from 'valtio';
 import state from '../utils/store';
-import { EURO_SYMBOL } from '../utils/consts';
+import { BASE_URL, EURO_SYMBOL } from '../utils/consts';
+import axios from 'axios';
 
 const Checkout = () => {
     const snap = useSnapshot(state)
@@ -39,7 +40,7 @@ const Checkout = () => {
     }, [snap.shoppingListData]);
 
     const handleSubmit = () => {
-        
+        axios.post(`${BASE_URL}/api/product/generate`, state.shoppingListData).then().catch(err => alert(err))
     }
   return (
     <Box

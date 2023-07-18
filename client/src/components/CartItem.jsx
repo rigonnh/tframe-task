@@ -13,7 +13,22 @@ const CartItem = ({title, price, amount, id}) => {
         </Box>
         <Box display={'flex'} justifyContent={'space-between'}>
             <Button onClick={() => {
-
+             state.shoppingListData = state.shoppingListData.map(item => {
+              if (item.id === id) {
+                state.shoppingListNumber -= 1;
+                if (item.amount <= 1) {
+                  return null; 
+                } else {
+                  return { ...item, amount: item.amount - 1 };
+                }
+              } else {
+                return item;
+              }
+            });
+          
+            // Remove any null elements (items with amount less than 1)
+            state.shoppingListData = state.shoppingListData.filter(item => item !== null);
+          
             }} variant='contained'>-</Button>
             <Typography variant='h6'>{amount}</Typography>
             <Button onClick={() => {

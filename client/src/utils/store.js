@@ -7,6 +7,7 @@ const state = proxy({
     productDataFiltered: [],
     shoppingListNumber: 0,
     shoppingListData: [],
+    tableModal: false,
 })
 
 export default state;

@@ -4,13 +4,14 @@ import { useSnapshot } from 'valtio';
 import state from '../utils/store';
 import { BASE_URL, EURO_SYMBOL } from '../utils/consts';
 import axios from 'axios';
+import TableModal from './TableModal';
 
 const Checkout = () => {
     const snap = useSnapshot(state)
     const [vat, setVat] = useState(0)
     const [total, setTotal] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
-
+    
     useEffect(() => {
 
         const calculatedVat = snap.shoppingListData.reduce((acc, item) => {
@@ -42,6 +43,10 @@ const Checkout = () => {
     const handleSubmit = () => {
         axios.post(`${BASE_URL}/api/product/generate`, state.shoppingListData).then().catch(err => alert(err))
     }
+    const handleSubmitTable = () => {
+      state.tableModal = true;
+  }
+
   return (
     <Box
       display={"flex"}
@@ -77,7 +82,11 @@ const Checkout = () => {
         </Box>
         <Box>{total.toFixed(2)}{EURO_SYMBOL}</Box>
       </Box>
-      <Button onClick={handleSubmit} variant="contained">Faturo</Button>
+      <Button onClick={handleSubmit} variant="contained">Faturo PDF</Button>
+      <Button onClick={handleSubmitTable} variant="contained">Faturo TABLE</Button>
+      {
+        snap.tableModal ? <TableModal /> : null
+      }
     </Box>
   );
 }

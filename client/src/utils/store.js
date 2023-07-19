@@ -7,6 +7,7 @@ const state = proxy({
     productDataFiltered: [],
     shoppingListNumber: 0,
     shoppingListData: [],
+    invoiceData: [],
     tableModal: false,
     subtotal:0,
     vat:0,

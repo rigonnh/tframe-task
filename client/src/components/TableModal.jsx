@@ -52,13 +52,7 @@ const TableModal = ({data}) => {
     //     console.log('second')
     //   }
     // }, [data]);
-    useEffect(() => {
-      axios.post(`${BASE_URL}/api/product/generate`, snap.shoppingListData).then(
-        res => {
-          setInvoiceList(res.data)
-        }
-      )
-    }, [])
+    
   
   return (
     <Dialog
@@ -84,7 +78,7 @@ const TableModal = ({data}) => {
       <Typography>VAT: {' '}{snap.vat.toFixed(2)}{EURO_SYMBOL}</Typography>
       <Typography>Total: {' '}{snap.total.toFixed(2)}{EURO_SYMBOL}</Typography>
       </Box>
-      { invoiceList?.map((item, index) => {
+      { data?.map((item, index) => {
         
         return <InvoiceTable data={item} key={index}/>
       })}

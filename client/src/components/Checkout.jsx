@@ -41,8 +41,25 @@ const Checkout = () => {
     }, [snap.shoppingListData]);
 
     const handleSubmit = () => {
-        axios.post(`${BASE_URL}/api/product/generate`, state.shoppingListData).then().catch(err => alert(err))
+      if(snap.shoppingListData.length < 1){
+        alert('Shporta juaj eshte e zbrazet')
+        return
+      }
+        axios.post(`${BASE_URL}/api/product/generate`, state.shoppingListData).then(res => {
+          state.invoiceData = res.data;
+        }).catch(err => alert(err))
+        state.tableModal = true
     }
+    const handleSubmitTableSort = () => {
+      if(snap.shoppingListData.length < 1){
+        alert('Shporta juaj eshte e zbrazet')
+        return
+      }
+      axios.post(`${BASE_URL}/api/product/generate/sort`, state.shoppingListData).then(res => {
+        state.invoiceData = res.data;
+      }).catch(err => alert(err))
+      state.tableModal = true
+  }
     const handleSubmitTable = () => {
       state.subtotal = subtotal;
       state.total = total;
@@ -87,8 +104,9 @@ const Checkout = () => {
       </Box>
       <Button onClick={handleSubmit} variant="contained">Faturo PDF</Button>
       <Button onClick={handleSubmitTable} variant="contained">Faturo TABLE</Button>
+      <Button onClick={handleSubmitTableSort} variant="contained">Faturo TABLE (sort)</Button>
       {
-        snap.tableModal ? <TableModal /> : null
+        snap.tableModal ? <TableModal data={snap.invoiceData}/> : null
       }
     </Box>
   );

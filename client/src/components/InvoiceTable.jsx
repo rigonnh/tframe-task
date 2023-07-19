@@ -70,7 +70,7 @@ const InvoiceTable = ({ data }) => {
         <Box marginX={1} marginTop={4}>
         <TableContainer
           component={Paper}
-          style={{ overflow: "scroll", height: 500 }}
+          style={{ overflow: "auto", height: 'auto', maxHeight:500 }}
         >
           <Table sx={{ minWidth: 400 }} aria-label="customized table">
             <TableHead>

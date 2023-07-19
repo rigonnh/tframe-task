@@ -23,4 +23,9 @@ public class ProductsController {
 
         return ResponseEntity.ok(productsService.generateReport(productCart));
     }
+    @PostMapping("/generate/sort")
+    public ResponseEntity<?> generateInvoiceSort(@RequestBody List<ProductCart> productCart){
+
+        return ResponseEntity.ok(productsService.createInvoiceSort(productCart));
+    }
 }

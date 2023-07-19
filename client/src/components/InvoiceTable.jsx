@@ -41,7 +41,7 @@ const InvoiceTable = ({ data }) => {
     useEffect(() => {
 
         const calculatedVat = data.reduce((acc, item) => {
-            const itemVAT = (item.productVAT / 100) * item.productPrice * item.amount;
+            const itemVAT = (item.productPrice -(item.productPrice / ((item.productVAT / 100)+1))) * item.amount;
             return (acc + itemVAT);
           }, 0);
       
@@ -49,7 +49,7 @@ const InvoiceTable = ({ data }) => {
           setVat(calculatedVat);
 
           const calculatedSubtotal = data.reduce((acc, item) => {
-            const itemSubtotal = (item.productPrice - (item.productVAT / 100) * item.productPrice) * item.amount;
+            const itemSubtotal = (item.productPrice / ((item.productVAT / 100)+1)) * item.amount;
             return acc + itemSubtotal;
           }, 0);
       
@@ -99,16 +99,18 @@ const InvoiceTable = ({ data }) => {
                       {row.amount}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.productPrice}
+                      {(row.productPrice / (row.productVAT / 100 + 1)).toFixed(2)}
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       {0}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.productVAT}
+                      {row.productVAT}{'%'}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {(row.productPrice * row.amount)}
+                      {(row.productPrice / ((row.productVAT / 100)+1) * row.amount).toFixed(2)}{' + '}
+                      {((row.productPrice -(row.productPrice / ((row.productVAT / 100)+1))) * row.amount).toFixed(2)}
+                      {' = '}{(row.productPrice * row.amount). toFixed(2)}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))

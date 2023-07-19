@@ -55,13 +55,42 @@ public class ProductsService {
 
 
             if(item.getProductPrice() >= 500) {
+                if(item.getAmount() > 50){
+                    int count = item.getAmount();
+                    for(int i = 0; i < item.getAmount() / 50; i++){
+                        List<ProductCart> list = new ArrayList<>();
+                        ProductCart productCart = ProductCart.builder()
+                                .productName(item.getProductName())
+                                .productPrice(item.getProductPrice())
+                                .productVAT(item.getProductVAT())
+                                .amount(50)
+                                .id(item.getId())
+                                .discount(item.getDiscount())
+                                .build();
+                        list.add(productCart);
+                        printCartListWithLessThan500(list, cartLists);
+                        count -= 50;
+
+                    }
+                    if(count > 0){
+                        List<ProductCart> list = new ArrayList<>();
+                        ProductCart productCart = ProductCart.builder()
+                                .productName(item.getProductName())
+                                .productPrice(item.getProductPrice())
+                                .productVAT(item.getProductVAT())
+                                .amount(count)
+                                .id(item.getId())
+                                .discount(item.getDiscount())
+                                .build();
+                        list.add(productCart);
+                        printCartListWithLessThan500(list, cartLists);
+                    }
+                    continue;
+                }
                 List<ProductCart> list = new ArrayList<>();
                 list.add(item);
                 printCartListWithLessThan500(list, cartLists);
                 continue;
-            }
-            if(item.getAmount() > 50){
-
             }
             priceToCheck += item.getProductPrice() * item.getAmount();
             if (priceToCheck > 500) {

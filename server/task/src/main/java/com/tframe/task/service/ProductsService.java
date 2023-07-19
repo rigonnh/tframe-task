@@ -46,52 +46,52 @@ public class ProductsService {
             }
         }
 
-        public void generateReport(List<ProductCart> productCartList) {
-            List<List<ProductCart>> cartLists = new ArrayList<>();
-            List<ProductCart> currentCart = new ArrayList<>();
-            double priceToCheck = 0;
+    public List<List<ProductCart>> generateReport(List<ProductCart> productCartList) {
+        List<List<ProductCart>> cartLists = new ArrayList<>();
+        List<ProductCart> currentCart = new ArrayList<>();
+        double priceToCheck = 0;
 
-            for (ProductCart item : productCartList) {
-                priceToCheck += item.getProductPrice();
-                if (priceToCheck > 500) {
-                    // If adding this item to the current cart would exceed the limit, create a new cart list
-                    if (!currentCart.isEmpty()) {
-                        cartLists.add(currentCart);
-                    }
-                    // Print the current cart list with products less than 500
-                    printCartListWithLessThan500(currentCart);
+        for (ProductCart item : productCartList) {
 
-                    // Start a new cart list with the current item
-                    currentCart = new ArrayList<>();
-                    priceToCheck = 0;
+
+            if(item.getProductPrice() >= 500) {
+                List<ProductCart> list = new ArrayList<>();
+                list.add(item);
+                printCartListWithLessThan500(list, cartLists);
+                continue;
+            }
+            if(item.getAmount() > 50){
+
+            }
+            priceToCheck += item.getProductPrice() * item.getAmount();
+            if (priceToCheck > 500) {
+                // If adding this item to the current cart would exceed the limit, create a new cart list
+
+                // Print the current cart list with products less than 500
+                if(priceToCheck - (item.getProductPrice() * item.getAmount()) < 500 && productCartList.size() > 1){
+                    List<ProductCart> list = new ArrayList<>();
+                    list.add(item);
+                    printCartListWithLessThan500(list, cartLists);
+                    priceToCheck -= item.getProductPrice() * item.getAmount();
+                    continue;
                 }
-
-                currentCart.add(item);
-
+                printCartListWithLessThan500(currentCart, cartLists);
+                // Start a new cart list with the current item
+                currentCart = new ArrayList<>();
+                priceToCheck = item.getProductPrice() * item.getAmount();
             }
-
-// Print the last cart list with products less than 500
-            printCartListWithLessThan500(currentCart);
-
-// Add any remaining items to the last cart list
-            if (!currentCart.isEmpty()) {
-                cartLists.add(currentCart);
-            }
+            currentCart.add(item);
         }
-    private void printCartListWithLessThan500(List<ProductCart> cart) {
-        if (cart.isEmpty()) {
-            return;
-        }
+        // Add the last cart (currentCart) to the cartLists
 
-        double totalPrice = 0;
-        System.out.println("Cart List with Products Less Than 500:");
-        for (ProductCart item : cart) {
-            totalPrice += item.getProductPrice();
-            // Customize how you want to print the cart items, for example:
-            System.out.println(item.getProductName() + " - Price: " + item.getProductPrice());
-        }
-        System.out.println("Total Price: " + totalPrice);
-        System.out.println();
+        // Print the last cart list with products less than 500
+        printCartListWithLessThan500(currentCart, cartLists);
+        return cartLists;
+    }
+
+
+    private void printCartListWithLessThan500(List<ProductCart> cart, List<List<ProductCart>> listToAdd) {
+        listToAdd.add(cart);
     }
     }
 

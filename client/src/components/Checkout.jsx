@@ -44,6 +44,9 @@ const Checkout = () => {
         axios.post(`${BASE_URL}/api/product/generate`, state.shoppingListData).then().catch(err => alert(err))
     }
     const handleSubmitTable = () => {
+      state.subtotal = subtotal;
+      state.total = total;
+      state.vat = vat;
       state.tableModal = true;
   }
 

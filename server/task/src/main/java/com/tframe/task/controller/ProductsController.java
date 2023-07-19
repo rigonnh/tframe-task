@@ -20,7 +20,7 @@ public class ProductsController {
     }
     @PostMapping("/generate")
     public ResponseEntity<?> generateInvoice(@RequestBody List<ProductCart> productCart){
-        productsService.generateReport(productCart);
-        return ResponseEntity.ok("");
+
+        return ResponseEntity.ok(productsService.generateReport(productCart));
     }
 }

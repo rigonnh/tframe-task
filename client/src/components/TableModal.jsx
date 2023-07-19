@@ -1,44 +1,69 @@
 import { Dialog } from '@mui/material'
-import React from 'react'
-import { Box, Button, IconButton, Typography, styled } from '@mui/material';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import React, { useEffect, useState } from 'react'
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import state from '../utils/store';
 import { useSnapshot } from 'valtio';
 import CloseIcon from '@mui/icons-material/Close';
+import { BASE_URL, EURO_SYMBOL } from '../utils/consts';
+import InvoiceTable from './InvoiceTable';
+import axios from 'axios'
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.dark,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  }));
 
 const TableModal = ({data}) => {
     const snap = useSnapshot(state)
+    const [invoiceList, setInvoiceList] = useState([]);
+    
+    // useEffect(() => {
+    //   let currentInvoice = [];
+    //   let currentTotal = 0;
+    //   setInvoiceList([])
+    //   snap.shoppingListData.forEach((item) => {
+    //     if (item.productPrice > 500) {
+    //       // Create a new invoice with the single expensive product
+    //       if (currentInvoice.length > 0) {
+    //         setInvoiceList((prevInvoiceList) => [...prevInvoiceList, currentInvoice]);
+    //         currentInvoice = [];
+    //         currentTotal = 0;
+    //         console.log('Printed in single product and currentInvoice is not 0: CurrentInvoice: ' + currentInvoice )
+    //         console.log('Printed in single product and currentInvoice is not 0: invoiceList: ' + invoiceList )
+    //       }
+  
+    //       setInvoiceList((prevInvoiceList) => [...prevInvoiceList, [item]]);
+    //     } else {
+    //       const itemTotal = (item.productPrice * item.amount)+ currentTotal;
+  
+    //       if (itemTotal > 500) {
+    //         // Save the current invoice and reset
+    //         setInvoiceList((prevInvoiceList) => [...prevInvoiceList, currentInvoice]);
+    //         currentInvoice = [];
+    //         currentTotal = 0;
+    //         console.log('third')
+    //       }
+  
+    //       currentTotal += item.productPrice;
+    //       currentInvoice.push(item);
+    //       console.log('first')
+    //     }
+    //   });
+  
+    //   // Add the last invoice if there are any remaining items
+    //   if (currentInvoice.length > 0) {
+    //     setInvoiceList((prevInvoiceList) => [...prevInvoiceList, currentInvoice]);
+    //     console.log('second')
+    //   }
+    // }, [data]);
+    useEffect(() => {
+      axios.post(`${BASE_URL}/api/product/generate`, snap.shoppingListData).then(
+        res => {
+          setInvoiceList(res.data)
+        }
+      )
+    }, [])
+  
   return (
     <Dialog
       fullScreen
-      open={snap}
+      open={snap.tableModal}
       onClose={() => {
         state.tableModal = false;
       }}
@@ -54,98 +79,15 @@ const TableModal = ({data}) => {
         <Typography variant="h4">Invoice</Typography>
       </Box>
       <Box marginX={1} marginTop={3}>
-      <Typography>OrderId: {' '}</Typography>
-      <Typography>Subtotal: {' '}</Typography>
-      <Typography>VAT: {' '}</Typography>
-      <Typography>Total: {' '}</Typography>
+      <Typography>OrderId: {' '}{'1'}</Typography>
+      <Typography>Subtotal: {' '}{snap.subtotal.toFixed(2)}{EURO_SYMBOL}</Typography>
+      <Typography>VAT: {' '}{snap.vat.toFixed(2)}{EURO_SYMBOL}</Typography>
+      <Typography>Total: {' '}{snap.total.toFixed(2)}{EURO_SYMBOL}</Typography>
       </Box>
-      <Box marginX={1} marginTop={4}>
-        <TableContainer
-          component={Paper}
-          style={{ overflow: "scroll", height: 500 }}
-        >
-          <Table sx={{ minWidth: 400 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Nr</StyledTableCell>
-                <StyledTableCell align="left">Description</StyledTableCell>
-                <StyledTableCell align="right">QTY</StyledTableCell>
-                <StyledTableCell align="right">Price</StyledTableCell>
-                <StyledTableCell align="right">Discount</StyledTableCell>
-                <StyledTableCell align="right">VAT</StyledTableCell>
-                <StyledTableCell align="right">Total</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data ? (
-                data.map((row, index) => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell component="th" scope="row">
-                      {index + 1}
-                    </StyledTableCell>
-                    <StyledTableCell component="th" scope="row">
-                      {row.productName}
-                    </StyledTableCell>
-
-                    <StyledTableCell align="right">
-                      {row.productPrice.toFixed(2)}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.productVAT}%
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {(
-                        row.productPrice -
-                        (row.productVAT / 100) * row.productPrice
-                      ).toFixed(2)}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <Button
-                        onClick={() => {}}
-                        startIcon={<AddShoppingCartIcon />}
-                        variant="contained"
-                      >
-                        Shto ne Shport
-                      </Button>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))
-              ) : (
-                <></>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
-      <Box display={"flex"} justifyContent={"flex-end"} marginRight={1}>
-        <Box
-          border={"1px solid grey"}
-          display={"flex"}
-          flexDirection={"column"}
-          width={200}
-          gap={1}
-          p={1}
-        >
-          <Box display={"flex"} justifyContent={"space-between"}>
-            <Box>
-              <Typography>Subtotal:</Typography>
-            </Box>
-            <Box>{"0.00"}</Box>
-          </Box>
-          <Box display={"flex"} justifyContent={"space-between"}>
-            <Box>
-              <Typography>Subtotal:</Typography>
-            </Box>
-            <Box>{"0.00"}</Box>
-          </Box>
-          <Box display={"flex"} justifyContent={"space-between"}>
-            <Box>
-              <Typography>Subtotal:</Typography>
-            </Box>
-            <Box>{"0.00"}</Box>
-          </Box>
-        </Box>
-      </Box>
+      { invoiceList?.map((item, index) => {
+        
+        return <InvoiceTable data={item} key={index}/>
+      })}
     </Dialog>
   );
 }

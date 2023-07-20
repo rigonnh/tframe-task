@@ -8,6 +8,6 @@ public class TestController {
 
     @GetMapping("/test")
     public String isRunning(){
-        return "Server is running in port 8080";
+        return "Server is running on port 8080";
     }
 }

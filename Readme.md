@@ -1,7 +1,8 @@
 # Description
 This app is done using ReactJS and Spring Boot as for database i have used just a .csv file as example
 so you don't have to install any database engine. Read the below guide to start the application
-
+## Result ScreenShots
+You can also check the screenshots of results in the screenshot folder
 # ReactJS
 To start react js first go to client and write the command `npm install`, and after all dependecies are installed run the command ` npm start`.
 This should start a local server with port 3000.

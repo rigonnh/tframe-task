@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @GetMapping
+    @GetMapping("/test")
     public String isRunning(){
         return "Server is running in port 8080";
     }

@@ -1,11 +1,50 @@
-productName,productPrice,productVAT, id
-Laptop,800,22,1
-Smartphone,500,18,2
-Headphones,50,18,3
-T-shirt,20,8,4
-Jeans,40,8,5
-Backpack,30,18,6
-Watch,100,18,7
-Sunglasses,25,18,8
-Book,10,8,9
-Shoes,50,8,10
+productName,productPrice,productVAT,id,discount
+Laptop,800,22,1,10
+Smartphone,500,18,2,30
+Headphones,50,18,3,3
+T-shirt,20,8,4,0
+Jeans,40,8,5,0
+Backpack,30,18,6,0
+Watch,100,18,7,0
+Sunglasses,25,18,8,0
+Book,10,8,9,0
+Shoes,50,8,10,0
+Coca Cola,2,8,11,0
+Bike,500,0,12,5
+Toothbrush,5,8,13,0
+Toothpaste,3,8,14,0
+Pen,2,8,15,0
+Notebook,4,8,16,0
+Camera,300,18,17,15
+Desk,150,18,18,0
+Chair,80,18,19,0
+Pencil,1,8,20,0
+Eraser,0.5,8,21,0
+Mug,7,8,22,0
+Headset,40,18,23,10
+Keyboard,60,18,24,0
+Monitor,200,18,25,5
+Mouse,20,18,26,0
+USB Drive,15,18,27,0
+Power Bank,25,18,28,0
+Water Bottle,8,8,29,0
+Socks,6,8,30,0
+Charger,12,18,31,0
+Gloves,15,8,32,0
+Scarf,10,8,33,0
+Hoodie,30,8,34,5
+Ring,50,8,35,0
+Bracelet,20,8,36,0
+Earrings,15,8,37,0
+Umbrella,12,8,38,0
+Perfume,40,8,39,10
+Lipstick,8,8,40,0
+Foundation,12,8,41,0
+Shampoo,10,8,42,0
+Conditioner,10,8,43,0
+Razor,6,8,44,0
+Sunscreen,15,8,45,0
+Lotion,8,8,46,0
+Hand Sanitizer,5,8,47,0
+Phone Case,5,8,48,0
+Speaker,40,18,49,5

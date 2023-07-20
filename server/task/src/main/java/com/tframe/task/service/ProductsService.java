@@ -170,12 +170,13 @@ public class ProductsService {
                             .discount(item.getDiscount())
                             .build();
 
-                    List<ProductCart> list = new ArrayList<>();
-                    list.add(productCart);
-                    returnList.add(list);
+
+
+                    secondList.add(productCart);
                 }
             }});
         inputList.addAll(newl);
+        inputList.addAll(secondList);
         inputList.removeIf(item -> item.getAmount() > 50);
         double priceToCheck = 0;
         inputList = inputList.stream().sorted(
@@ -183,24 +184,28 @@ public class ProductsService {
         ).collect(Collectors.toList());
         for (ProductCart item: inputList
              ) {
-            priceToCheck += item.getProductPrice() * item.getAmount();
+            priceToCheck += (item.getProductPrice() - item.getDiscount()) * item.getAmount();
             if(priceToCheck > 500){
                 returnList.add(currentArray);
                 priceToCheck = 0;
                 currentArray = new ArrayList<>();
                 currentArray.add(item);
+                priceToCheck += item.getProductPrice() * item.getAmount();
             }
             else {
                 currentArray.add(item);
             }
-            
+
+        }
+        if(!currentArray.isEmpty()){
+            returnList.add(currentArray);
         }
        return returnList;
     }
 
     private void sortOwnPriceGraterThan500(List<List<ProductCart>> returnList, List<ProductCart> inputList) {
         List<ProductCart> listWithGraterThan500 = inputList.stream()
-                .filter(item -> item.getProductPrice() >= 500)
+                .filter(item -> (item.getProductPrice() - item.getDiscount()) >= 500)
                 .collect(Collectors.toList());
 
         listWithGraterThan500.forEach(item -> {
@@ -243,7 +248,7 @@ public class ProductsService {
             }
         });
 
-        inputList.removeIf(item -> item.getProductPrice() >= 500);
+        inputList.removeIf(item -> (item.getProductPrice() - item.getDiscount()) >= 500);
 
     }
 }

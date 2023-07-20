@@ -41,7 +41,7 @@ const InvoiceTable = ({ data }) => {
     useEffect(() => {
 
         const calculatedVat = data.reduce((acc, item) => {
-            const itemVAT = (item.productPrice -(item.productPrice / ((item.productVAT / 100)+1))) * item.amount;
+            const itemVAT = ((item.productPrice - item.discount) -((item.productPrice - item.discount) / ((item.productVAT / 100)+1))) * item.amount;
             return (acc + itemVAT);
           }, 0);
       
@@ -49,7 +49,7 @@ const InvoiceTable = ({ data }) => {
           setVat(calculatedVat);
 
           const calculatedSubtotal = data.reduce((acc, item) => {
-            const itemSubtotal = (item.productPrice / ((item.productVAT / 100)+1)) * item.amount;
+            const itemSubtotal = ((item.productPrice - item.discount) / ((item.productVAT / 100)+1)) * item.amount;
             return acc + itemSubtotal;
           }, 0);
       
@@ -57,7 +57,7 @@ const InvoiceTable = ({ data }) => {
           setSubtotal(calculatedSubtotal);
 
           const calculatedTotal = data.reduce((acc, item) => {
-            const itemTotal = item.productPrice * item.amount;
+            const itemTotal = (item.productPrice - item.discount) * item.amount;
             return acc + itemTotal;
           }, 0);
       
@@ -102,15 +102,15 @@ const InvoiceTable = ({ data }) => {
                       {(row.productPrice / (row.productVAT / 100 + 1)).toFixed(2)}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {0}
+                      {row.discount}
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       {row.productVAT}{'%'}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {(row.productPrice / ((row.productVAT / 100)+1) * row.amount).toFixed(2)}{' + '}
-                      {((row.productPrice -(row.productPrice / ((row.productVAT / 100)+1))) * row.amount).toFixed(2)}
-                      {' = '}{(row.productPrice * row.amount). toFixed(2)}
+                      {((row.productPrice - row.discount) / ((row.productVAT / 100)+1) * row.amount).toFixed(2)}{' + '}
+                      {(((row.productPrice - row.discount) -((row.productPrice - row.discount) / ((row.productVAT / 100)+1))) * row.amount).toFixed(2)}
+                      {' = '}{((row.productPrice - row.discount) * row.amount). toFixed(2)}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))

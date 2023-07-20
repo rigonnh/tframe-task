@@ -50,13 +50,14 @@ const TableComponent = ({ data }) => {
 
   return (
     <Box  marginX={1} marginTop={4}>
-        <TableContainer component={Paper} style={{overflow: 'scroll', height: 500}}>
+        <TableContainer component={Paper} style={{overflow: 'scroll', height: '100%', maxHeight: 'calc(100vh - 200px)'}}>
           <Table  sx={{ minWidth: 400 }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Nr</StyledTableCell>
                 <StyledTableCell align="left">Produkti</StyledTableCell>
                 <StyledTableCell align="right">Cmimi</StyledTableCell>
+                <StyledTableCell align="right">Zbritje</StyledTableCell>
                 <StyledTableCell align="right">Taksa</StyledTableCell>
                 <StyledTableCell align="right">CmimiPaTax</StyledTableCell>
                 <StyledTableCell align="right">Veprimet</StyledTableCell>
@@ -78,10 +79,13 @@ const TableComponent = ({ data }) => {
                       {row.productPrice.toFixed(2)}
                     </StyledTableCell>
                     <StyledTableCell align="right">
+                      {row.discount.toFixed(2)}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
                       {row.productVAT}%
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {(row.productPrice - (row.productVAT / 100) * row.productPrice).toFixed(2)}
+                      {((row.productPrice - row.discount) / ((row.productVAT / 100)+1)).toFixed(2)}
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       

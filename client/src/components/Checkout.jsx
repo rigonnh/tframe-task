@@ -15,7 +15,8 @@ const Checkout = () => {
     useEffect(() => {
 
         const calculatedVat = snap.shoppingListData.reduce((acc, item) => {
-            const itemVAT = (item.productVAT / 100) * item.productPrice * item.amount;
+            const itemVAT = ((item.productPrice - item.discount) -((item.productPrice - item.discount) / ((item.productVAT / 100)+1))) * item.amount;
+            console.log(itemVAT)
             return (acc + itemVAT);
           }, 0);
       
@@ -23,7 +24,7 @@ const Checkout = () => {
           setVat(calculatedVat);
 
           const calculatedSubtotal = state.shoppingListData.reduce((acc, item) => {
-            const itemSubtotal = (item.productPrice - (item.productVAT / 100) * item.productPrice) * item.amount;
+            const itemSubtotal  = ((item.productPrice - item.discount) / ((item.productVAT / 100)+1)) * item.amount;
             return acc + itemSubtotal;
           }, 0);
       
@@ -31,7 +32,7 @@ const Checkout = () => {
           setSubtotal(calculatedSubtotal);
 
           const calculatedTotal = state.shoppingListData.reduce((acc, item) => {
-            const itemTotal = item.productPrice * item.amount;
+            const itemTotal = (item.productPrice - item.discount) * item.amount;
             return acc + itemTotal;
           }, 0);
       
@@ -48,7 +49,10 @@ const Checkout = () => {
         axios.post(`${BASE_URL}/api/product/generate`, state.shoppingListData).then(res => {
           state.invoiceData = res.data;
         }).catch(err => alert(err))
-        state.tableModal = true
+        state.subtotal = subtotal;
+      state.total = total;
+      state.vat = vat;
+      state.tableModal = true;
     }
     const handleSubmitTableSort = () => {
       if(snap.shoppingListData.length < 1){
@@ -58,7 +62,10 @@ const Checkout = () => {
       axios.post(`${BASE_URL}/api/product/generate/sort`, state.shoppingListData).then(res => {
         state.invoiceData = res.data;
       }).catch(err => alert(err))
-      state.tableModal = true
+      state.subtotal = subtotal;
+      state.total = total;
+      state.vat = vat;
+      state.tableModal = true;
   }
     const handleSubmitTable = () => {
       state.subtotal = subtotal;

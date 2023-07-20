@@ -62,8 +62,7 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+     
     </Menu>
   );
 
@@ -109,7 +108,7 @@ export default function Navbar() {
             Detyra
           </Typography>
           <Box display={'flex'} gap={2} marginX={2}>
-            <Button><Link style={{ textDecoration: 'none', color: 'white'}} role='button' to={'/'}>Kryefaqja</Link></Button>
+            <Button><Link style={{ textDecoration: 'none', color: 'white'}} role='button' to={'/'}>Produktet</Link></Button>
             <Button><Link style={{ textDecoration: 'none', color: 'white'}} role='button' to={'/bag'}>Shporta ime</Link></Button>
           </Box>
           <Box sx={{ flexGrow: 1 }} />

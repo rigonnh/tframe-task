@@ -178,6 +178,7 @@ public class ProductsService {
         inputList.addAll(newl);
         inputList.addAll(secondList);
         inputList.removeIf(item -> item.getAmount() > 50);
+        List<ProductCart> listWithDuplicate = new ArrayList<>();
         double priceToCheck = 0;
         inputList = inputList.stream().sorted(
                 Comparator.comparingDouble(item -> item.getProductPrice() * item.getAmount())
@@ -193,11 +194,29 @@ public class ProductsService {
                 priceToCheck += item.getProductPrice() * item.getAmount();
             }
             else {
-                currentArray.add(item);
+                if(currentArray.stream().anyMatch(item1 -> item1.getId() == item.getId())){
+                    listWithDuplicate.add(item);
+                }
+                else {
+                    currentArray.add(item);
+                }
+
             }
 
         }
         if(!currentArray.isEmpty()){
+
+            if(!listWithDuplicate.isEmpty()){
+                for(ProductCart productCart : listWithDuplicate){
+                    if(!currentArray.stream().anyMatch(item1 -> item1.getId() == productCart.getId())){
+                        currentArray.add(productCart);
+                    }
+                    else{
+                        List<ProductCart> item = new ArrayList<>();
+                        returnList.add(item);
+                    }
+                }
+            }
             returnList.add(currentArray);
         }
        return returnList;

@@ -109,9 +109,8 @@ const Checkout = () => {
         </Box>
         <Box>{total.toFixed(2)}{EURO_SYMBOL}</Box>
       </Box>
-      <Button onClick={handleSubmit} variant="contained">Faturo PDF</Button>
-      <Button onClick={handleSubmitTable} variant="contained">Faturo TABLE</Button>
-      <Button onClick={handleSubmitTableSort} variant="contained">Faturo TABLE (sort)</Button>
+      
+      <Button onClick={handleSubmitTableSort} variant="contained">Faturo</Button>
       {
         snap.tableModal ? <TableModal data={snap.invoiceData}/> : null
       }
